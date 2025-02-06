@@ -19,6 +19,11 @@ const letters string = "QWERTYUIOPASDFGHJKLZXCVBNM"
 const maxOrderLength int = 8
 const useOfHashtag bool = true // Is use # in starts?
 
+var ordersType map[string]string = map[string]string{
+    "dev" : "DEV",
+    "design" : "DESIGN",
+};
+
 func GenerateCode() string {
     result := ""
     
@@ -39,9 +44,19 @@ func GenerateCode() string {
     return result
 }
 
+func AddingOrderTypeInResult(typeOrder string) string {
+    valueType, ok := ordersType[typeOrder];
+    if !ok  {
+        panic("Not founded: " + typeOrder);
+    }
+    
+    return fmt.Sprintf("%s-%s", valueType, GenerateCode())
+    
+}
+
 func main() {
     rand.Seed(time.Now().UnixNano()) // Seed the random number generator once
-    for a := 0; a < 2; a++ {
-        fmt.Printf("Generated: %s\n", GenerateCode())
+    for a := 0; a < 50; a++ {
+        fmt.Printf("[%d] %s\n", a, AddingOrderTypeInResult("dev"))
     }
 }
